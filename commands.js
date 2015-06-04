@@ -19,6 +19,7 @@ function readInput(cb) {
 	arff.load(options.file, function (err, data) {
 		options.features = data.types;
 		options.data = data.data;
+		options.classes = options.features[options.class].oneof;
 		cb(options);
 	});
 }
@@ -99,7 +100,8 @@ function createNetwork(options) {
 	connectNetwork(roots, options, ends);
 
 	return {
-		network: roots,
+		roots: roots,
+		ends: ends,
 		options: options
 	};
 }
