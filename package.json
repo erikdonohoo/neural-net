@@ -1,0 +1,31 @@
+{
+  "name": "neural",
+  "version": "1.0.0",
+  "description": "neural network in node",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erikdonohoo/neural.git"
+  },
+  "keywords": [
+    "neural",
+    "network",
+    "machine",
+    "learning",
+    "node"
+  ],
+  "author": "Erik Donohoo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/erikdonohoo/neural/issues"
+  },
+  "homepage": "https://github.com/erikdonohoo/neural#readme",
+  "dependencies": {
+    "lodash": "^3.9.3",
+    "node-arff": "0.0.4",
+    "yargs": "^3.10.0"
+  }
+}
