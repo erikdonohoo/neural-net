@@ -13,6 +13,7 @@ function readInput(cb) {
 	options.file = path.join(__dirname, args.file) || null;
 	options.class = args.class || null;
 	options.train = args.train / 100;
+	options.learning = args.learning;
 
 	if (!options.file || !options.class) throw new Error('Must supply arff file and class (--file <file> --class <class>)');
 
@@ -53,6 +54,11 @@ function createOutputNodes(options) {
 	return outputNodes;
 }
 
+function randomWeight() {
+	// Between -1 and 1
+	return Math.round(Math.random() * 1000) * 2 * 0.001 - 1;
+}
+
 function connectNetwork(nodes, options, ends) {
 
 	if (nodes[0].depth < options.hidden) {
@@ -66,14 +72,16 @@ function connectNetwork(nodes, options, ends) {
 		}
 
 		// Connect to layer
-		nodes.forEach(function (node) {
-			newLayer.forEach(function (newLayerNode) {
-				node.next.push({
-					neuron: newLayerNode
-				});
-				newLayerNode.prev.push({
-					neuron: node
-				});
+		var once = false;
+		newLayer.forEach(function (newLayerNode) {
+			nodes.forEach(function (node) {
+				var connection = {
+					upper: node,
+					lower: newLayerNode,
+					weight: randomWeight()
+				};
+				node.next.push(connection);
+				newLayerNode.prev.push(connection);
 			});
 		});
 
@@ -83,12 +91,13 @@ function connectNetwork(nodes, options, ends) {
 		// Connect to ends
 		nodes.forEach(function (node) {
 			ends.forEach(function (endNode) {
-				node.next.push({
-					neuron: endNode
-				});
-				endNode.prev.push({
-					neuron: node
-				});
+				var connection = {
+					upper: node,
+					lower: endNode,
+					weight: randomWeight()
+				};
+				node.next.push(connection);
+				endNode.prev.push(connection);
 			});
 		});
 	}
